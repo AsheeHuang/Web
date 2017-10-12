@@ -2,14 +2,18 @@
 <html>
   <head>
       <title>Scheduling</title>
+      <script src="jquery-3.2.1.js"></script>
   </head>
   <body>
-    <textarea  id="fileContent" cols="50" rows="10"  ></textarea></br>
+    <textarea  id="fileContent" cols="50" rows="10"></textarea></br>
     <button type ="button" name = "EDD" onclick="EDD_rule()">Start</button>
-    <script>
+    <script type='text/javascript' lanhuage='JavaScript'>
       function EDD_rule(){
+        var filePath = 'data.txt'
+        jQuery.get(filePath,function(data){
           alert(data);
+        },'text');
       }
     </script>
-    </body>
+  </body>
 </html>
