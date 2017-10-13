@@ -1,19 +1,33 @@
 <!DOCTYPE HTML>
 <html>
   <head>
-      <title>Scheduling</title>
+      <title>EDD rule</title>
       <script src="jquery-3.2.1.js"></script>
+      <script src="index.js"></script>
+      <!--IMPORT BOOTSTRAP-->
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+      <link rel="stylesheet" href="style.css" type="text/css">
+      <link type="text/css"  href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet" />
+      <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
   </head>
   <body>
-    <textarea  id="fileContent" cols="50" rows="10"></textarea></br>
-    <button type ="button" name = "EDD" onclick="EDD_rule()">Start</button>
-    <script type='text/javascript' lanhuage='JavaScript'>
-      function EDD_rule(){
-        var filePath = 'data.txt'
-        jQuery.get(filePath,function(data){
-          alert(data);
-        },'text');
-      }
-    </script>
+    <div class=''>
+      <div id='Job' class='centered'>
+        <h1>Job List</h1>
+        <textarea  id="JobList" cols="40" rows="6"></textarea>
+      </div>
+      <div id='buttons'>
+        <button class="btn" type ="button" id = "Last">Last</button>
+        <button class="btn" type ="button" id = "Start">Start</button>
+        <button class="btn" type ="button" id = "Next">Next</button>
+      </div>
+      </br>
+      <h3 id='lable1' style='display:none'>Seqeunce sorted by Due Date</h1>
+      <div class="row">
+        <div class="col-lg-10 sorted_seq">
+
+        </div>
+      </div>
+    </div>
   </body>
 </html>
