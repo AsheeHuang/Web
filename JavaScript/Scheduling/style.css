@@ -12,5 +12,6 @@
 .Job_block p{
   font-size: 16pt;
 }
-#buttons{
+#buttons textarea{
+  vertical-align: middle;
 }
