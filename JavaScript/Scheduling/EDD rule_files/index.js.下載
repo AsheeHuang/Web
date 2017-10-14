@@ -49,49 +49,31 @@ $(document).ready(function() {
   }
 
   function paintC(Job_seq){
-    $('#completion').html('<h4></h4>');
-      var C = 0
-      for(i=0;i<Job_seq.length;i++){
-        var str = "";
-        var C_id = "C"+(i).toString()
+    var str = "";
+    var C = 0
+    for(i=0;i<Job_seq.length;i++){
+      var C_id = "C"+(i+1).toString()
 
-        var block_name = 'block'+ i.toString();
-        var pos = $('.job_seq .Job_block[name ='+block_name+']').position().left;
+      C += Job_seq[i].pt;
+      str += "<h3 id='"+C_id+"'>"+C+"</h3> \n";
 
-        C += Job_seq[i].pt;
-        Job_seq[i].c = C;
-        var rate = (Job_seq[i].pt/totalPT)*98;
-        str += "<h4 class ='C' id='"+C_id+"'>"+C+"</h4> \n";
+      var block_name = 'block'+ i.toString();
+      var pos = $('.job_seq .Job_block[name ='+block_name+']').position().left;
 
-        console.log();
-        $('#completion').append(str);
-
-        $('#'+C_id).css("width", rate.toString() + "%");
-        //$('#'+C_id).css("position","absolute");
-      //  console.log(pos);
-      }
+      $('#'+C_id).css('position','absolute');
+      $('#'+C_id).css('left',pos.toString() + "pt");
+      $('#'+C_id).css('font-size',"12pt");
+      console.log(pos);
     }
+    $('#completion').html(str);
 
-  function delay_detection(Job_seq){
-    for (i=0 ;i<Job_seq.length;i++){
-      if (Job_seq[i].isdelay()){
-        var C_id = "C"+(i).toString()
-        $('#'+C_id).css("color", 'red');
-      }
-    }
   }
+
   var Job = function(pt,d){
     this.pt = pt;
     this.d = d;
     this.c = 0;
-    this.color = '#DDD';//default color
-
-    this.isdelay=function(){
-      if(this.c > this.d)
-        return true;
-      else
-        return false;
-    }
+    this.color = '#DDD' //default color
   };
 
   var Status = function(Jobs,Job_seq,job_count){
@@ -99,6 +81,7 @@ $(document).ready(function() {
     this.Job_seq = Job_seq;
     this.job_count = job_count;
   }
+
 
   var processingTime = [7,6,3,9,4];
   var dueDate = [28,21,18,12,24];
@@ -125,7 +108,6 @@ $(document).ready(function() {
     //clear seq
     $('.sorted_seq').html('');
     $('.job_seq').html('');
-    $('#completion').html('');
     //sort Jobs by deadline
     Jobs = sortObj(Jobs,'d');
 
@@ -172,7 +154,7 @@ $(document).ready(function() {
       Jobs.push(new Job(p,d));
     }
     else if(p>d){
-      alert("Processing Time can't be larger than Due date");
+      alrt("Processing Time can't be larger than Due date")
     }
     else{
       alert("Processing Time and Due date should be integer.");
@@ -182,24 +164,6 @@ $(document).ready(function() {
     $('#JobList').append(str);
   });
 
-  $('#random_add').click(function(){
-
-    var num = parseInt($('#num').val());
-    console.log(num);
-    for (i=0 ; i<num ; i++){
-      var range = n*6;
-      var dd = Math.floor(Math.random()*range+10);
-      var pt = Math.floor(Math.random()*9+1);
-      console.log(dd,pt);;
-      Jobs.push(new Job(pt,dd));
-
-      totalPT += pt;
-      n++;
-
-      var str = 'Job['+n+'] : '+'PT = '+Jobs[n-1].pt+'    Due Date = '+Jobs[n-1].d+'\n'
-      $('#JobList').append(str);
-  }
-  });
   $('#Next').click(function(){
     if(job_count < Jobs.length){
       block_name = "block"+job_count.toString();
@@ -216,8 +180,8 @@ $(document).ready(function() {
       Status_stack.push(currentStatus);
 
       job_count += 1;
+
       paintC(Job_seq);
-      delay_detection(Job_seq);
     }
   });
 
@@ -236,7 +200,6 @@ $(document).ready(function() {
       repaint('.job_seq',status.Job_seq,0);
 
       job_count--;
-      paintC(Job_seq);
     }
   })
 });
