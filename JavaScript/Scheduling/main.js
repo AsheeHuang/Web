@@ -22,6 +22,10 @@ $(document).ready(function() {
     }
     return list.sort(compare);
 }
+  function sleep( sleepDuration ){
+      var now = new Date().getTime();
+      while(new Date().getTime() < now + sleepDuration){ /* do nothing */ }
+  }
 
   function AddJob(div,block_name,job){
 
@@ -82,7 +86,7 @@ $(document).ready(function() {
       if (Job_seq[i].isdelay()){
         var C_id = "C"+(i).toString()
         $('#'+C_id).css("color", 'red');
-        delay = true
+        delay = true;
       }
     }
     return delay;
@@ -139,6 +143,9 @@ $(document).ready(function() {
     this.job_count = job_count;
     this.pop = pop;
   }
+  var click_next = function(){
+    $('#Next').trigger('click');
+  }
 /*---------------------------------------------------------------------*/
   var processingTime = [];
   var dueDate = [];
@@ -148,6 +155,7 @@ $(document).ready(function() {
   empty_job = new Job(0,0,0)
   var animation_time = 200;
   var pop = false;
+  var finish = false;
 
   Jobs = new Array();
   Job_seq = new Array();
@@ -179,6 +187,7 @@ $(document).ready(function() {
 
     Job_seq = [];
     job_count = 0;
+    finish = false;
 
     for (i=0;i<n;i++){
       //add a block
@@ -206,6 +215,16 @@ $(document).ready(function() {
     // Add status to stack
     var currentStatus = new Status(Jobs.slice(),Job_seq.slice(),job_count,false);
     Status_stack.push(currentStatus);
+
+    var auto = $("#auto:checked").val();
+    if(auto && Jobs){
+      while(!finish){
+        setInterval(click_next(),1)
+
+        // sleep(1000);
+      }
+    }
+
   });
   //hover event
 
@@ -243,8 +262,8 @@ $(document).ready(function() {
     }
 
     for (i=0 ; i<num ; i++){
-      var range = n*5;
-      var dd = Math.floor(Math.random()*range+10);
+      var range = n*4;
+      var dd = Math.floor(Math.random()*range+15);
       var pt = Math.floor(Math.random()*8+2);
 
       Jobs.push(new Job(pt,dd,Jobs.length));
@@ -291,6 +310,9 @@ $(document).ready(function() {
     }
     paintC(Job_seq);
     delay_detection(Job_seq);
+
+    if(job_count == n)
+      finish = true;
   });
 
   //Last button
