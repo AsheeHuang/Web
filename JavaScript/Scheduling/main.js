@@ -318,6 +318,7 @@ $(document).ready(function() {
         repaint('.job_seq',status.Job_seq,0);
         Job_seq = status.Job_seq;
       }
+      delay_detection(Job_seq)
       paintC(Job_seq);
       job_count--;
       console.log(Status_stack);
@@ -329,7 +330,6 @@ $(document).ready(function() {
   $(".sorted_seq").on("mouseout", ".Job_block",function(){
             $(this).removeClass("hover");  //hover out, remove class "hover"
     });
-
   $(".job_seq").on("mouseover",".Job_block",function(){
           $(this).addClass("hover")      //hover, add class "hover"
   });
