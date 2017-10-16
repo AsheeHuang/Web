@@ -13,8 +13,9 @@
   font-size: 16pt;
 }
 .hover {
-  color: white;
-  border = 5px solid #000;
+  color : white;
+  /*border : 3px solid #000;*/
+  box-shadow: inset 0 0 100px 100px rgba(0, 0, 0, 0.5);
 }
 .C{
   text-align: right;
@@ -22,6 +23,12 @@
   margin : 0;
   border : 0;
   padding: 0;
+}
+.step{
+  font-weight: bold;
+}
+.select{
+  color : red ;
 }
 #buttons textarea{
   vertical-align: middle;

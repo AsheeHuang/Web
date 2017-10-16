@@ -19,12 +19,11 @@
         </div>
         <div class="col-lg-7">
           <br><h3>EDD Algorithm</h3>
-          <p id ='step1' class="step">Step 1. Arrange the jobs in EDD order and assume this as set E. Let set L be empty.</p>
-          <p id = 'step2' class="step">Step 2. If no jobs in E are late, then stop. Find the union of E and L (Note: The remaining
-jobs in E should be in EDD order. But the jobs in L can be in any order);</p>
-          <p id = 'step3' class ="step">Step 3.Using max-heap to identify the longest job, among the first K jobs in the sequence. Remove this job
-from E and place it in L. Revise the completion times of the jobs remaining E and return to
-step 2.</p>
+          <p id ='step1' class="step">Step 1. Arrange the jobs in EDD order and assume this as set E. Let set J be empty.</p>
+          <p id = 'step2' class="step">Step 2. Let j be first element in EDD . If adding j to L is feasible , union J and j and delete j from E.</p>
+          <p id = 'step3' class ="step">Step 3. Using max-heap to identify the longest job, among the first K jobs in the sequence. Remove this job
+              from J. Revise the completion times of the jobs remaining E and return to
+              step 2.</p>
         </div>
       </div>
       <div id='buttons'>
@@ -55,7 +54,7 @@ step 2.</p>
         </div>
       </div>
       <br>
-      <h3 id='lable2' style='display:none'>Job sequence(L)<h3>
+      <h3 id='lable2' style='display:none'>Job sequence(J)<h3>
       <div class="row">
         <div class="col-lg-12 job_seq">
           <!--put job sequence by js-->

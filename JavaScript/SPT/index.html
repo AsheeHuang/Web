@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
   <head>
-      <title>EDD rule</title>
+      <title>SPT rule</title>
       <script src="jquery-3.2.1.js"></script>
       <script src="main.js"></script>
       <!--IMPORT BOOTSTRAP-->
@@ -18,13 +18,10 @@
           <textarea readonly id="JobList" cols="32" rows="6"></textarea>
         </div>
         <div class="col-lg-7">
-          <br><h3>EDD Algorithm</h3>
-          <p id ='step1' class="step">Step 1. Arrange the jobs in EDD order and assume this as set E. Let set L be empty.</p>
-          <p id = 'step2' class="step">Step 2. If no jobs in E are late, then stop. Find the union of E and L (Note: The remaining
-jobs in E should be in EDD order. But the jobs in L can be in any order);</p>
-          <p id = 'step3' class ="step">Step 3.Using max-heap to identify the longest job, among the first K jobs in the sequence. Remove this job
-from E and place it in L. Revise the completion times of the jobs remaining E and return to
-step 2.</p>
+          <br><h3>SPT Algorithm</h3>
+          <p id ='step1' class="step">Step 1. Arrange the jobs in SPT order and assume this as set E. Let set J be empty.</p>
+          <p id ='step2' class="step">Step 2. Let j be the first element in E , if adding j to L is feasible, then union J and j and delete j from E.</p>
+          <p id ='step3' class="step">Step 3. If adding j to L is infeasible, discard j and delete j from E . Then back to Step2.</p>
         </div>
       </div>
       <div id='buttons'>

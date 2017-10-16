@@ -137,14 +137,21 @@ $(document).ready(function() {
     }
   };
 
-  var Status = function(Jobs,Job_seq,job_count,pop){
-    this.Jobs = Jobs;
+  var Status = function(maxheap,Job_seq,job_count,pop){
+    this.maxheap = maxheap;
     this.Job_seq = Job_seq;
     this.job_count = job_count;
     this.pop = pop;
   }
   var click_next = function(){
     $('#Next').trigger('click');
+  }
+
+  var select = function(num){
+    var p_id = '#step'+num.toString();
+    $('.step').removeClass('select');
+    $(p_id).addClass('select');
+    console.log(p_id);
   }
 /*---------------------------------------------------------------------*/
   var processingTime = [];
@@ -159,7 +166,7 @@ $(document).ready(function() {
 
   Jobs = new Array();
   Job_seq = new Array();
-
+  maxheap = new Array();
 
   //Load all jobs
   for(i = 0 ; i<processingTime.length ; i++){
@@ -182,9 +189,11 @@ $(document).ready(function() {
     //sort Jobs by deadline
     Jobs = sortObj(Jobs,'d');
 
-    $('#lable1').show();
-    $('#lable2').show();
-
+    if(Jobs.length>0){
+      $('#lable1').show();
+      $('#lable2').show();
+      select(1);  //color step1
+    }
     Job_seq = [];
     job_count = 0;
     finish = false;
@@ -209,18 +218,17 @@ $(document).ready(function() {
       $('.Job_block[name = '+block_name+']').css("background",Jobs[i].color);
       $('.Job_block[name = '+block_name+']').css('width',rate);
       //show animation
-      $('.Job_block[name = '+block_name+']').slideLeftShow(i*animation_time);
+      $('.Job_block[name = '+block_name+']').slideLeftShow(1000-(n-i)*(1000/n));
 
     };
     // Add status to stack
-    var currentStatus = new Status(Jobs.slice(),Job_seq.slice(),job_count,false);
+    var currentStatus = new Status(maxheap.slice(),Job_seq.slice(),job_count,false);
     Status_stack.push(currentStatus);
 
     var auto = $("#auto:checked").val();
     if(auto && Jobs){
       while(!finish){
-        setInterval(click_next(),1)
-
+        setInterval(click_next,1)
         // sleep(1000);
       }
     }
@@ -291,8 +299,9 @@ $(document).ready(function() {
         AddJob('.job_seq',block_name,j);
         $('.job_seq .Job_block[name = '+block_name+']').slideLeftShow(animation_time);
         $('.sorted_seq .Job_block[name = '+delete_block+']').fadeOut(animation_time);
+        select(2); //color step2 to red
 
-        var currentStatus = new Status(Jobs.slice(),Job_seq.slice(),job_count,false);
+        var currentStatus = new Status(maxheap.slice(),Job_seq.slice(),job_count,false);
         Status_stack.push(currentStatus);
       }
         job_count+=1;
@@ -302,15 +311,16 @@ $(document).ready(function() {
 
       var pos = Job_seq.indexOf(tardy);
       var block_name = "block"+pos.toString();
-      $('.job_seq .Job_block[name = '+block_name+']').hide('slow');
+      $('.job_seq .Job_block[name = '+block_name+']').fadeOut('slow');
+      select(3);
       Job_seq[pos] = empty_job;
 
-      var currentStatus = new Status(Jobs.slice(),Job_seq.slice(),job_count,true);
+      var currentStatus = new Status(maxheap.slice(),Job_seq.slice(),job_count,true);
       Status_stack.push(currentStatus);
     }
     paintC(Job_seq);
     delay_detection(Job_seq);
-
+    console.log(Status_stack);
     if(job_count == n)
       finish = true;
   });
@@ -329,14 +339,15 @@ $(document).ready(function() {
       }
 
       var status = Status_stack[Status_stack.length - 1 ];
+      maxheap = status.maxheap;
 
       if(Status_stack.length ==1 ){
-        repaint('.sorted_seq',status.Jobs,0);
+        repaint('.sorted_seq',Jobs,0);
         Job_seq = [];
         job_count =1;
       }
       else{
-        repaint('.sorted_seq',status.Jobs,status.job_count+1);
+        repaint('.sorted_seq',Jobs,status.job_count+1);
         repaint('.job_seq',status.Job_seq,0);
         Job_seq = status.Job_seq;
       }
