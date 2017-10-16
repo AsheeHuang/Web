@@ -74,11 +74,6 @@ $(document).ready(function() {
           $('#completion').append(str);
 
           $('#'+C_id).css("width", rate.toString() + "%");
-
-          if(!finish){
-            $('#'+C_id).css("display",'none');
-            $('#'+C_id).show(500);
-          }
           //$('#'+C_id).css("position","absolute");
           //console.log(pos);
         }
@@ -325,7 +320,7 @@ $(document).ready(function() {
     }
     paintC(Job_seq);
     delay_detection(Job_seq);
-
+    console.log(Status_stack);
     if(job_count == n)
       finish = true;
   });

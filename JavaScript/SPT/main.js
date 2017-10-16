@@ -106,7 +106,7 @@ $(document).ready(function() {
           $('#completion').append(str);
 
           $('#'+C_id).css("width", rate.toString() + "%");
-          if(finish){
+          if(!finish){
             $('#'+C_id).css("display",'none');
             $('#'+C_id).show(500);
           }
