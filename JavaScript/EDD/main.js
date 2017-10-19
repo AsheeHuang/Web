@@ -158,9 +158,13 @@ $(document).ready(function() {
     $(p_id).addClass('select');
     console.log(p_id);
   }
+  function job_select(block_name){
+    $('.Job_block').removeClass('job_select');
+    $('.job_seq .Job_block[name = '+block_name+']').addClass('job_select');
+  }
 /*---------------------------------------------------------------------*/
-  var processingTime = [];
-  var dueDate = [];
+  var processingTime = [5,6,7,2,3,4,9,8,5,4,6];
+  var dueDate = [8,23,26,24,13,11,45,15,29,28,19];
   var n = 0;
   var totalPT = 0;
   var job_count = 0;
@@ -266,6 +270,14 @@ $(document).ready(function() {
     $('#Start').trigger("click");
   });
 
+  $('#delete').click(function(){
+    Jobs = [];
+    n = 0;
+    totalPT = 0;
+    $('#JobList').html("");
+    $('#Start').trigger("click");
+  })
+
   $('#random_add').click(function(){
 
     var num = parseInt($('#num').val());
@@ -274,18 +286,19 @@ $(document).ready(function() {
       return ;
     }
 
-    for (i=0 ; i<num ; i++){
+    for (i=1 ; i<=num ; i++){
       var range = n*4;
       var dd = Math.floor(Math.random()*range+15);
       var pt = Math.floor(Math.random()*8+2);
 
       Jobs.push(new Job(pt,dd,Jobs.length));
-
+      console.log(Jobs,i);
       totalPT += pt;
       n++;
 
       var str = 'Job['+n+'] : '+'PT = '+Jobs[n-1].pt+'    Due Date = '+Jobs[n-1].d+'\n'
       $('#JobList').append(str);
+
   }
       $('#Start').trigger("click");
   });
@@ -323,6 +336,12 @@ $(document).ready(function() {
       var currentStatus = new Status(maxheap.slice(),Job_seq.slice(),job_count,true);
       Status_stack.push(currentStatus);
     }
+    //select max pt in sequence
+    var maxPT = maxheap[0];
+    var pos = Job_seq.indexOf(maxPT);
+    var block_name = "block"+pos.toString();
+    job_select(block_name);
+
     paintC(Job_seq);
     delay_detection(Job_seq);
 
@@ -356,6 +375,11 @@ $(document).ready(function() {
         repaint('.job_seq',status.Job_seq,0);
         Job_seq = status.Job_seq;
       }
+      var maxPT = maxheap[0];
+      var pos = Job_seq.indexOf(maxPT);
+      var block_name = "block"+pos.toString();
+      job_select(block_name);
+
       delay_detection(Job_seq)
       paintC(Job_seq);
       job_count--;
@@ -374,6 +398,4 @@ $(document).ready(function() {
   $(".job_seq").on("mouseout", ".Job_block",function(){
             $(this).removeClass("hover");  //hover out, remove class "hover"
     });
-
-
 });

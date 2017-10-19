@@ -203,9 +203,14 @@ $(document).ready(function() {
     }
     return Job_seq.length ;
   }
+
+  function job_select(block_name){
+  $('.Job_block').removeClass('job_select');
+  $('.job_seq .Job_block[name = '+block_name+']').addClass('job_select');
+}
 /*---------------------------------------------------------------------*/
-  var processingTime = [];
-  var dueDate = [];
+  var processingTime = [5,6,7,2,3,4,9,8,5,4,6];
+  var dueDate = [8,23,26,24,13,11,45,15,29,28,19];
   var n = 0;
   var totalPT = 0;
   var job_count = 0;
@@ -276,13 +281,14 @@ $(document).ready(function() {
     var currentStatus = new Status(maxheap.slice(),Job_seq.slice(),job_count,false);
     Status_stack.push(currentStatus);
 
-    var auto = $("#auto:checked").val();
-    if(auto && Jobs){
-      while(!finish){
-        setInterval(click_next,1)
-        // sleep(1000);
-      }
-    }
+    //show by automatically animate
+    // var auto = $("#auto:checked").val();
+    // if(auto && Jobs){
+    //   while(!finish){
+    //     setInterval(click_next,1)
+    //     // sleep(1000);
+    //   }
+    // }
 
   });
   //hover event
@@ -312,6 +318,14 @@ $(document).ready(function() {
     $('#Start').trigger("click");
   });
 
+  $('#delete').click(function(){
+  Jobs = [];
+  n = 0;
+  totalPT = 0;
+  $('#JobList').html("");
+  $('#Start').trigger("click");
+})
+
   $('#random_add').click(function(){
 
     var num = parseInt($('#num').val());
@@ -340,6 +354,7 @@ $(document).ready(function() {
     if(delay_pos < 0){
       if(job_count < Jobs.length){
         block_name = "block"+(Jobs[job_count].index).toString();
+
         // delete_block = "block"+(Jobs[job_count].index).toString();
         //pop job 0 and push to job sequence
         j = Jobs[job_count];
@@ -354,6 +369,7 @@ $(document).ready(function() {
         // $('.job_seq .Job_block[name = '+block_name+']').slideLeftShow('slow');
         // $('.sorted_seq .Job_block[name = '+block_name+']').fadeOut(animation_time);
         totalRepaint(block_name);
+        job_select(block_name);
         select(2); //color step2 to red
 
         var currentStatus = new Status(maxheap.slice(),Job_seq.slice(),job_count,false);
@@ -376,6 +392,7 @@ $(document).ready(function() {
       var currentStatus = new Status(maxheap.slice(),Job_seq.slice(),job_count,true);
       Status_stack.push(currentStatus);
     }
+    //highlight the job selected
 
     paintC(Job_seq);
     delay_detection(Job_seq);

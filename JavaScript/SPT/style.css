@@ -30,6 +30,9 @@
 .select{
   color : red ;
 }
+.job_select{
+    border:5px solid red;
+}
 #buttons textarea{
   vertical-align: middle;
 }
